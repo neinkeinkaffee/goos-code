@@ -16,7 +16,6 @@ docker run --name openfire -d --restart=always \
 - Server > Server Manager > Server Information > Edit Properties > Servername: localhost
 - Server > Server Settings > Resource Policy > Set Conflict Policy: Never kick
 - Server > Server Settings > Offline Messages > Offline Message Policy: Drop
-- create end-to-end test users
 - Users/Groups > Create New User
     - auction-item-54321, auction
     - auction-item-65432, auction
