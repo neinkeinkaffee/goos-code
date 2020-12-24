@@ -1,0 +1,5 @@
+.idea/
+bin/
+build/
+auction-sniper.log*
+goos-code.iml
