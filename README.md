@@ -1,7 +1,8 @@
-Growing Object-Oriented Software with Tests
+#Growing Object-Oriented Software with Tests
 
 This is a fork of the official [worked example code](https://github.com/sf105/goos-code) for "Growing Object-Oriented Software, Guided by Tests" by Steve Freeman and Nat Pryce (2010).
 
+## How to run the tests
 1. Start an Openfire XMPP server with Docker (or modify https://hub.docker.com/r/sameersbn/openfire/dockerfile to your taste and build it yourself).
 ```
 mkdir -p /tmp/docker/openfire
