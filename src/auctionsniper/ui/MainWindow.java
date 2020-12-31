@@ -5,11 +5,12 @@ import javax.swing.border.LineBorder;
 
 import java.awt.*;
 
-import static auctionsniper.Main.STATUS_JOINING;
-
 public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     public static final String SNIPER_STATUS_NAME = "Status";
+    public static final String STATUS_LOST = "Lost";
+    public static final String STATUS_JOINING = "Joining";
+    public static final String STATUS_BIDDING = "Bidding";
 
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
