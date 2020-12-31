@@ -1,11 +1,10 @@
 package test.endtoend.auctionsniper;
 
-import auctionsniper.Main;
+import auctionsniper.XMPPAuction;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -41,11 +40,11 @@ public class FakeAuctionServer {
     }
 
     public void hasReceivedJoinRequestFromSniper(String sniperId) throws Exception {
-        receivesAMessageMatching(sniperId, Main.JOIN_COMMAND_FORMAT);
+        receivesAMessageMatching(sniperId, XMPPAuction.JOIN_COMMAND_FORMAT);
     }
 
     public void hasReceivedBid(int bid, String sniperId) throws Exception {
-        receivesAMessageMatching(sniperId, String.format(Main.BID_COMMAND_FORMAT, bid));
+        receivesAMessageMatching(sniperId, String.format(XMPPAuction.BID_COMMAND_FORMAT, bid));
     }
 
     private void receivesAMessageMatching(String sniperId, String format) throws InterruptedException {
