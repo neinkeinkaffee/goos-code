@@ -30,7 +30,6 @@ public class FakeAuctionServer {
         connection.login(String.format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE);
         connection.getChatManager().addChatListener(
                 new ChatManagerListener() {
-                    @Override
                     public void chatCreated(Chat chat, boolean createdLocally) {
                         currentChat = chat;
                         chat.addMessageListener(messageListener);
@@ -39,7 +38,7 @@ public class FakeAuctionServer {
         );
     }
 
-    public void hasReceivedJoinRequestFromSniper(String sniperId) throws Exception {
+    public void hasReceivedJoinRequestFrom(String sniperId) throws Exception {
         receivesAMessageMatching(sniperId, XMPPAuction.JOIN_COMMAND_FORMAT);
     }
 

@@ -38,13 +38,13 @@ public class Main {
         Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
         this.notToBeGcd = chat;
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, new SniperStateDisplayer())));
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, new SniperStateDisplayer())));
         auction.join();
     }
 
     private void disconnectWhenUICloses(XMPPConnection connection) {
         ui.addWindowListener(new WindowAdapter() {
-            @Override public void windowClosed(WindowEvent e) {
+            public void windowClosed(WindowEvent e) {
                 connection.disconnect();
             }
         });
@@ -77,6 +77,15 @@ public class Main {
 
         public void sniperBidding() {
             showStatus(MainWindow.STATUS_BIDDING);
+        }
+
+        public void sniperWinning() {
+            showStatus(MainWindow.STATUS_WINNING);
+        }
+
+        @Override
+        public void sniperWon() {
+            showStatus(MainWindow.STATUS_WON);
         }
 
         private void showStatus(final String status) {

@@ -15,7 +15,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SimpleMessageListener implements MessageListener {
     private ArrayBlockingQueue<Message> messages = new ArrayBlockingQueue<>(1);
 
-    @Override
     public void processMessage(Chat chat, Message message) {
         messages.add(message);
     }
