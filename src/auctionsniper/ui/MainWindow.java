@@ -1,18 +1,17 @@
 package auctionsniper.ui;
 
-import auctionsniper.SniperSnapshot;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
+    public static final String APPLICATION_TITLE = "Auction Sniper";
     private static final String SNIPERS_TABLE_NAME = "Snipers Table";
 
     private SnipersTableModel snipers;
 
     public MainWindow(SnipersTableModel snipers) {
-        super("Auction Sniper");
+        super(APPLICATION_TITLE);
         this.snipers = snipers;
         setName(MAIN_WINDOW_NAME);
         makeContentPane(makeSnipersTable());
