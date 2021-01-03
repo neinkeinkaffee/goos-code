@@ -1,12 +1,9 @@
 package auctionsniper;
 
-import static auctionsniper.AuctionEventListener.PriceSource.FromSniper;
-
 public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
     private SniperSnapshot snapshot;
     private final SniperListener sniperListener;
-    private boolean isWinning;
 
     public AuctionSniper(Auction auction, String itemId, SniperListener sniperListener) {
         this.auction = auction;

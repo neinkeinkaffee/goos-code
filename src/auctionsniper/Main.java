@@ -20,7 +20,7 @@ public class Main {
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
-    private MainWindow ui;
+    private MainWindow mainWindow;
     private Chat notToBeGcd;
 
     public Main() throws Exception {
@@ -45,7 +45,7 @@ public class Main {
     }
 
     private void disconnectWhenUICloses(XMPPConnection connection) {
-        ui.addWindowListener(new WindowAdapter() {
+        mainWindow.addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent e) {
                 connection.disconnect();
             }
@@ -67,14 +67,14 @@ public class Main {
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                ui = new MainWindow();
+                mainWindow = new MainWindow();
             }
         });
     }
 
     public class SniperStateDisplayer implements SniperListener {
-        public void sniperStateChanged(SniperSnapshot state) {
-            ui.sniperStateChanged(state);
+        public void sniperStateChanged(SniperSnapshot snapshot) {
+            mainWindow.sniperStateChanged(snapshot);
         }
     }
 }
