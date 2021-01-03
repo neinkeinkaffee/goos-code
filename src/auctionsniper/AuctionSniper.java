@@ -4,12 +4,14 @@ import static auctionsniper.AuctionEventListener.PriceSource.FromSniper;
 
 public class AuctionSniper implements AuctionEventListener {
     private final Auction auction;
+    private SniperSnapshot snapshot;
     private final SniperListener sniperListener;
     private boolean isWinning;
 
-    public AuctionSniper(Auction auction, SniperListener sniperListener) {
+    public AuctionSniper(Auction auction, String itemId, SniperListener sniperListener) {
         this.auction = auction;
         this.sniperListener = sniperListener;
+        this.snapshot = SniperSnapshot.joining(itemId);
     }
 
     public void auctionClosed() {
@@ -22,14 +24,13 @@ public class AuctionSniper implements AuctionEventListener {
 
     public void currentPrice(int price, int increment, PriceSource priceSource) {
         isWinning = priceSource == FromSniper;
-        switch(priceSource) {
-            case FromSniper:
-                sniperListener.sniperWinning();
-                break;
-            case FromOtherBidder:
-                auction.bid(price + increment);
-                sniperListener.sniperBidding();
-                break;
+        if (isWinning) {
+            snapshot = snapshot.winning(price);
+        } else {
+            final int bid = price + increment;
+            auction.bid(bid);
+            snapshot = snapshot.bidding(price, bid);
         }
+        sniperListener.sniperStateChanged(snapshot);
     }
 }

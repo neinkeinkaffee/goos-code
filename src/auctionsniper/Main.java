@@ -38,7 +38,7 @@ public class Main {
         Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
         this.notToBeGcd = chat;
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, new SniperStateDisplayer())));
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, itemId, new SniperStateDisplayer())));
         auction.join();
     }
 
@@ -75,17 +75,13 @@ public class Main {
             showStatus(MainWindow.STATUS_LOST);
         }
 
-        public void sniperBidding() {
-            showStatus(MainWindow.STATUS_BIDDING);
-        }
-
-        public void sniperWinning() {
-            showStatus(MainWindow.STATUS_WINNING);
-        }
-
         @Override
         public void sniperWon() {
             showStatus(MainWindow.STATUS_WON);
+        }
+
+        public void sniperStateChanged(SniperSnapshot state) {
+            ui.sniperStateChanged(state);
         }
 
         private void showStatus(final String status) {
