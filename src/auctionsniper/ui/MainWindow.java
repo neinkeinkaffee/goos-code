@@ -33,6 +33,6 @@ public class MainWindow extends JFrame {
     }
 
     public void sniperStateChanged(SniperSnapshot state) {
-        snipers.sniperStatusChanged(state);
+        snipers.sniperStateChanged(state);
     }
 }
