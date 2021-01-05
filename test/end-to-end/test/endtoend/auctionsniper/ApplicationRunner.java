@@ -14,13 +14,12 @@ public class ApplicationRunner {
     public static final String SNIPER_PASSWORD = "sniper";
     public static final String SNIPER_XMPP_ID = String.format("sniper@%s/%s", XMPP_HOSTNAME, AUCTION_RESOURCE);
     private AuctionSniperDriver driver;
-    private String itemId;
 
     public void startBiddingIn(final FakeAuctionServer... auctions) {
         Thread thread = new Thread("Test Application") {
             public void run() {
                 try {
-                    Main.main(arguments(auctions));
+                    Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -34,17 +33,6 @@ public class ApplicationRunner {
         for (FakeAuctionServer auction : auctions) {
             driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(JOINING));
         }
-    }
-
-    private static String[] arguments(FakeAuctionServer... auctions) {
-        String[] arguments = new String[auctions.length + 3];
-        arguments[0] = XMPP_HOSTNAME;
-        arguments[1] = SNIPER_ID;
-        arguments[2] = SNIPER_PASSWORD;
-        for (int i = 0; i < auctions.length; i++) {
-            arguments[i + 3] = auctions[i].getItemId();
-        }
-        return arguments;
     }
 
     public void showsSniperHasLostAuction() {
