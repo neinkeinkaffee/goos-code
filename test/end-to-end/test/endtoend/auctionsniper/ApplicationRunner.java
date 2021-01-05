@@ -31,7 +31,9 @@ public class ApplicationRunner {
         driver.hasTitle(MainWindow.APPLICATION_TITLE);
         driver.hasColumnTitles();
         for (FakeAuctionServer auction : auctions) {
-            driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(JOINING));
+            String itemId = auction.getItemId();
+            driver.startBiddingFor(itemId);
+            driver.showsSniperStatus(itemId, 0, 0, textFor(JOINING));
         }
     }
 
