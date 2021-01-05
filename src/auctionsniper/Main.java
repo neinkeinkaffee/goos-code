@@ -11,6 +11,9 @@ import org.jivesoftware.smack.XMPPException;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
     private static final int ARG_HOSTNAME = 0;
@@ -22,7 +25,7 @@ public class Main {
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
 
     private MainWindow mainWindow;
-    private Chat notToBeGcd;
+    private List<Chat> notToBeGcd = new ArrayList<>();
     private final SnipersTableModel snipers = new SnipersTableModel();
 
     public Main() throws Exception {
@@ -34,16 +37,27 @@ public class Main {
         XMPPConnection connection = connectTo(args[ARG_HOSTNAME],
                                               args[ARG_USERNAME],
                                               args[ARG_PASSWORD]);
-        main.joinAuction(connection, args[ITEM_ID]);
+        main.disconnectWhenUICloses(connection);
+        for (int i = 3; i < args.length; i++) {
+            main.joinAuction(connection, args[i]);
+        }
     }
 
     private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
-        disconnectWhenUICloses(connection);
+        safelyAddItemToModel(itemId);
         Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        this.notToBeGcd = chat;
+        notToBeGcd.add(chat);
         Auction auction = new XMPPAuction(chat);
         chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, itemId, new SwingThreadSniperListener(snipers))));
         auction.join();
+    }
+
+    private void safelyAddItemToModel(String itemId) throws Exception {
+        SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+                snipers.addSniper(SniperSnapshot.joining(itemId));
+            }
+        });
     }
 
     private void disconnectWhenUICloses(XMPPConnection connection) {
