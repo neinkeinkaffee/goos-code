@@ -2,14 +2,11 @@ package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
-import auctionsniper.ui.UserRequestListener;
 import auctionsniper.xmpp.XMPPAuctionHouse;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     private static final int ARG_HOSTNAME = 0;
@@ -17,7 +14,6 @@ public class Main {
     private static final int ARG_PASSWORD = 2;
 
     private MainWindow mainWindow;
-    private List<Auction> notToBeGcd = new ArrayList<>();
     private final SnipersTableModel snipers = new SnipersTableModel();
 
     public Main() throws Exception {
@@ -35,15 +31,7 @@ public class Main {
     }
 
     private void addUserRequestListenerFor(XMPPAuctionHouse auctionHouse) {
-        mainWindow.addUserRequestListener(new UserRequestListener() {
-            public void joinAuction(String itemId) {
-                snipers.addSniper(SniperSnapshot.joining(itemId));
-                Auction auction = auctionHouse.auctionFor(itemId);
-                notToBeGcd.add(auction);
-                auction.addAuctionEventListeners(new AuctionSniper(auction, itemId, new SwingThreadSniperListener(snipers)));
-                auction.join();
-            }
-        });
+        mainWindow.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
     }
 
     private void disconnectWhenUICloses(XMPPAuctionHouse auctionHouse) {
