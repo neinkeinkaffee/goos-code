@@ -13,6 +13,7 @@ public class XMPPAuction implements Auction {
     private static final String AUCTION_RESOURCE = "Auction";
     private static final String ITEM_ID_AS_LOGIN = "auction-%s";
     private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private Chat chat;
 

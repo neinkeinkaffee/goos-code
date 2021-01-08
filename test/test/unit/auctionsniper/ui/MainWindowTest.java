@@ -1,5 +1,8 @@
-package auctionsniper.ui;
+package test.unit.auctionsniper.ui;
 
+import auctionsniper.ui.MainWindow;
+import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.ui.UserRequestListener;
 import com.objogate.wl.swing.probe.ValueMatcherProbe;
 import org.junit.Test;
 import test.endtoend.auctionsniper.AuctionSniperDriver;
