@@ -7,8 +7,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperCollector {
-    private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
+public class SnipersTableModel extends AbstractTableModel implements PortfolioListener {
     private static final String STATUS_JOINING = "Joining";
     private static final String STATUS_BIDDING = "Bidding";
     private static final String STATUS_WINNING = "Winnning";
@@ -22,7 +21,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperColle
     };
 
     private List<SniperSnapshot> snapshots = new ArrayList<>();
-    private List<AuctionSniper> notToBeGcd = new ArrayList<AuctionSniper>();
+    private List<AuctionSniper> notToBeGcd = new ArrayList<>();
 
     public int getRowCount() {
         return snapshots.size();
@@ -59,16 +58,15 @@ public class SnipersTableModel extends AbstractTableModel implements SniperColle
         throw new Defect("Cannot find match for " + snapshot);
     }
 
-    @Override
-    public void addSniper(AuctionSniper sniper) {
-        notToBeGcd.add(sniper);
-        addSniperSnapshot(sniper.getSnapshot());
-        sniper.addSniperListener(new SwingThreadSniperListener(this));
-    }
-
     private void addSniperSnapshot(SniperSnapshot snapshot) {
         snapshots.add(snapshot);
         int row = snapshots.size() - 1;
         fireTableRowsInserted(row, row);
+    }
+
+    @Override
+    public void sniperAdded(AuctionSniper sniper) {
+        addSniperSnapshot(sniper.getSnapshot());
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
     }
 }

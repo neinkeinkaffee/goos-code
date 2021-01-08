@@ -1,7 +1,6 @@
 package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
-import auctionsniper.ui.SnipersTableModel;
 import auctionsniper.xmpp.XMPPAuctionHouse;
 
 import javax.swing.*;
@@ -14,7 +13,7 @@ public class Main {
     private static final int ARG_PASSWORD = 2;
 
     private MainWindow mainWindow;
-    private final SnipersTableModel snipers = new SnipersTableModel();
+    private final SniperPortfolio portfolio = new SniperPortfolio();
 
     public Main() throws Exception {
         startUserInterface();
@@ -31,7 +30,7 @@ public class Main {
     }
 
     private void addUserRequestListenerFor(XMPPAuctionHouse auctionHouse) {
-        mainWindow.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
+        mainWindow.addUserRequestListener(new SniperLauncher(auctionHouse, portfolio));
     }
 
     private void disconnectWhenUICloses(XMPPAuctionHouse auctionHouse) {
@@ -45,7 +44,7 @@ public class Main {
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                mainWindow = new MainWindow(snipers);
+                mainWindow = new MainWindow(portfolio);
             }
         });
     }
